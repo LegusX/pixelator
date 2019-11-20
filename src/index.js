@@ -10,7 +10,7 @@ function setup() {
         let file = input.files[0]
         let filereader = new FileReader()
         filereader.readAsDataURL(file)
-        filereader.onloadend(function(){
+        filereader.onload(function(){
             let encode = filereader.result
             let image = document.createElement("image")
             image.src = encode

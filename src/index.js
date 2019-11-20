@@ -24,6 +24,6 @@ function setup() {
         transCanvas.height
         document.appendChild(transCanvas)
         let ctx = transCanvas.getContext("2d")
-        ctx.
+//         ctx.
     })
 }

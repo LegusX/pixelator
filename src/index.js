@@ -7,9 +7,8 @@ function setup() {
     document.getElementById("fileupload").addEventListener("change", function(e){
         let input = e.target
         //get uploaded file and assume it's the first file because only one file can be uploaded at a time anyways
-        let file = input.files[0]
+        let inputImage = input.files[0]
         let filereader = new FileReader()
-        filereader.readAsDataURL(file)
         filereader.onload(function(){
             let encode = filereader.result
             let image = document.createElement("image")
@@ -17,7 +16,8 @@ function setup() {
             image.id = "preview"
             document.appendChild(image)
         })
-        //Canvas used to get the image file in a more js accessible format
+        filereader.readAsDataURL(inputImage)
+        //Canvas used to be able to read each and every pixel in the image
         let transCanvas = document.createElement("canvas")
         transCanvas.id = "transCanvas"
         transCanvas.setAttribute("visibility", "collapse")

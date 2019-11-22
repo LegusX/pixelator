@@ -9,13 +9,13 @@ function setup() {
         //get uploaded file and assume it's the first file because only one file can be uploaded at a time anyways
         let inputImage = input.files[0]
         let filereader = new FileReader()
-        filereader.onload(function(){
+        filereader.onload = function(){
             let encode = filereader.result
             let image = document.createElement("image")
             image.src = encode
             image.id = "preview"
             document.appendChild(image)
-        })
+        }
         filereader.readAsDataURL(inputImage)
         //Canvas used to be able to read each and every pixel in the image
         let transCanvas = document.createElement("canvas")

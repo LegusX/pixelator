@@ -14,7 +14,7 @@ function setup() {
             let image = document.createElement("image")
             image.src = encode
             image.id = "preview"
-            document.appendChild(image)
+            document.body.appendChild(image)
         }
         filereader.readAsDataURL(inputImage)
         //Canvas used to be able to read each and every pixel in the image

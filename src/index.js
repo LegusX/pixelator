@@ -22,7 +22,7 @@ function setup() {
         transCanvas.id = "transCanvas"
         transCanvas.setAttribute("visibility", "collapse")
         transCanvas.height
-        document.appendChild(transCanvas)
+        document.body.appendChild(transCanvas)
         let ctx = transCanvas.getContext("2d")
 //         ctx.
     })

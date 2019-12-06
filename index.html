@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Pixelator - Convert images to Minecraft build guides!</title>
-        <script src="src/index.js"></script>
-        <link href="src/styles.css" rel="stylesheet">
-    </head>
-    <body>
+
+<head>
+    <title>Pixelator - Convert images to Minecraft build guides!</title>
+    <script src="src/index.js"></script>
+    <link href="src/styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="confirmcontainer">
+        <div id="confirmdiv">
+            <h3>Are you sure you want to convert this image?</h3>
+            <button id="continuebutton">Continue</button>
+            <button id="cancelbutton">Cancel</button>
+        </div>
+    </div>
+    <div id="uploaddiv">
         <label for="fileupload">Choose an image file to use:</label>
         <input type="file" accept="image/png, image/jpeg" id="fileupload">
-    </body>
+    </div>
+
+</body>
+
 </html>

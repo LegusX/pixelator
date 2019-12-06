@@ -27,17 +27,30 @@ function setup() {
                 let ctx = canvasReader.getContext("2d")
                 ctx.drawImage(image, 0, 0)
 
-                confirm();
+                // now that the image is uploaded, make sure that the user really does want to convert this one
+                // (confirmation buttons will handle the continuation of this process)
+                document.getElementById("confirmcontainer").style.setProperty("visibility", "visible")
             }
             image.src = event.target.result
             // image.id = "preview"
             // document.body.appendChild(image)
         }
         filereader.readAsDataURL(inputImage)
-
     })
-}
 
-function confirm() {
-    // now that the image is uploaded, make sure that the user really does want to convert this one
+    // setup confirmation dialog stuff
+    // confirm button setup
+    let confirm = document.getElementById("continuebutton")
+    confirm.addEventListener("click", function() {
+        document.getElementById("confirmcontainer").style.setProperty("visibility", "hidden")
+        convertImage();
+    })
+
+    // cancel button setup
+    let cancel = document.getElementById("cancelbutton")
+    cancel.addEventListener("click", function() {
+        document.getElementById("confirmcontainer").style.setProperty("visibility", "hidden")
+        document.getElementById("fileupload").value = null;
+        document.getElementById("pixelReader").remove();
+    })
 }

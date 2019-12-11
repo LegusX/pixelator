@@ -17,6 +17,7 @@ var textures = {}
 //Init all html elements and just get the program ready in general
 function setup() {
     document.getElementById("fileupload").addEventListener("change", function(e){
+        reset()
         // create canvas to read pixel data from
         let canvas = document.createElement("canvas")
         canvas.id = "pixelReader"
@@ -158,4 +159,10 @@ function drawConverted() {
             ctx.drawImage(textures[finishedBlocks[y][x]], x*16,y*16)
         }
     }
+}
+
+function reset() {
+    document.getElementById("pixelReader").remove()
+    pixels = []
+    finishedBlocks = []
 }

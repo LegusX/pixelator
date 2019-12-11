@@ -1,0 +1,20 @@
+{
+	"brown_concrete_powder.png": [
+		125,
+		84,
+		53,
+		"rgba(125, 84, 53)"
+	],
+	"ice.png": [
+		145,
+		183,
+		253,
+		"rgba(145, 183, 253)"
+	],
+	"yellow_terracotta.png": [
+		186,
+		133,
+		35,
+		"rgba(186, 133, 35)"
+	]
+}

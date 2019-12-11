@@ -11,6 +11,9 @@ var finishedBlocks = []
 //object that stores the calculated average colors of all blocks
 var blockList = {}
 
+//object that holds all the preloaded mc textures
+var textures = {}
+
 //Init all html elements and just get the program ready in general
 function setup() {
     document.getElementById("fileupload").addEventListener("change", function(e){
@@ -67,7 +70,15 @@ function setup() {
     //get map.json and convert it to an object
     fetch("./texture_average/map.json").then(response => response.json()).then((data) => {
         blockList = data
+
+        //load all mc textures into html5 images for later use
+        for (let i in Object.getOwnPropertyNames(blockList)) {
+            let img = new Image()
+            img.src = "./mc_textures/"+Object.getOwnPropertyNames(blockList)[i]
+            textures[Object.getOwnPropertyNames(blockList)[i]] = img
+        } 
     })
+
 }
 
 function readImage() {
@@ -78,7 +89,7 @@ function readImage() {
     let x = 0;
     let y = 0;
 
-    for (let i = 0; i<canvas.width*canvas.height; i++ ) {
+    for (let i = 0; i<(canvas.width+1)*canvas.height; i++ ) {
         //check to see if a new array within pixels/finishedBlocks needs to be created for the new row
         if (x === 0) {
             pixels[y] = [];
@@ -112,82 +123,8 @@ function convertImage() {
             let limits = [5, 5, 5] //how far off we will initially allow the colors to be
             let pixel = pixels[y][x]
             let pixDec = parseInt(pixel[0].toString(16)+pixel[1].toString(16)+pixel[2].toString(16), 16)
-            
-            // cycle through the blocks until we find the closest one
-            // while (true) {
-            //     let potential = [] // list of potential blocks that will gradually be narrowed down
 
-            //     //filter through to check for red matches
-            //     for (let i in Object.getOwnPropertyNames(blockList)) {
-            //         let block = blockList[Object.getOwnPropertyNames(blockList)[i]]
-            //         if (Math.abs(block[0]-pixel[0]) <= limits[0])
-            //          potential.push(Object.getOwnPropertyNames(blockList)[i])
-            //     }
-            //     if (potential.length < 1) {
-            //         limits[0]+=5
-            //         continue;
-            //     }
-
-            //     //filter through to check for green matches
-            //     for (let i in potential) {
-            //         let block = blockList[potential[i]]
-            //         if (!(block[1]+limits[1] >= pixel[1] && block[1]-limits[1] <= pixel[1])) {
-            //             potential.splice(i,1) //remove if it doesn't meet the requirements
-            //         } 
-            //     }
-            //     if (potential.length < 1) {
-            //         if (limits[0] > limits[1]) limits[1]+=5
-            //         else limits[0]+=5
-            //         continue;
-            //     }
-
-            //     //filter through to check for blue matches
-            //     for (let i in potential) {
-            //         let block = blockList[potential[i]]
-            //         if (!(block[2]+limits[2] >= pixel[2] && block[2]-limits[2] <= pixel[2])) {
-            //             potential.splice(i,1) //remove if it doesn't meet the requirements
-            //         } 
-            //     }
-            //     if (potential.length < 1) {
-            //         if (limits[1] > limits[2]) limits[2]+=5
-            //         else limits[1]+=5
-            //         continue;
-            //     }
-
-            //     //by this point, at least one potential block should remain, but still need to check if there is more than one block that meets the limit criteria
-            //     if (potential.length === 1) {
-            //         finishedBlocks[y][x] = potential[0];
-            //         //reset limits for next pixel
-            //         limits = [5,5,5]
-            //         break;
-            //     }
-            //     else {
-            //         //Do some simple subtraction to see which block has the least total difference with the pixel in question.
-            //         let leastDifference = []
-            //         for (let i in potential) {
-            //             let block = blockList[potential[i]]
-
-            //             let redDiff = Math.abs(block[0]-pixel[0])
-            //             let greenDiff = Math.abs(block[1]-pixel[1])
-            //             let blueDiff = Math.abs(block[2]-pixel[2])
-
-            //             leastDifference[i] = redDiff+greenDiff+blueDiff
-            //             leastDifference[i]+= potential[i]
-            //         }
-
-            //         //sort leastDifference to see which one is the least:
-            //         leastDifference.sort(function(a,b){
-            //             //weird jankiness here because I chose to do so
-            //             return Number(a.match(/[0-9]*/g))-Number(b.match(/[0-9]*/g))
-            //         })
-            //         finishedBlocks[y][x] = leastDifference[0].match(/[a-zA-Z]*\.[a-zA-Z]*/g)
-            //         //reset limits for next pixel
-            //         limits = [5,5,5]
-            //         break;
-            //     }
-            // }
-
-            //new looping thing
+            //looping v3
             let limit = 1000
             let potential = ""
             for (let i in Object.getOwnPropertyNames(blockList)) {
@@ -204,6 +141,21 @@ function convertImage() {
                 x = 0;
                 y++
             }
+        }
+    }
+
+    //now that that is all finished, draw everything to the screen
+    drawConverted()
+}
+
+function drawConverted() {
+    let canvas = document.getElementById("finalcanvas")
+    let ctx = canvas.getContext("2d")
+    canvas.width = 16*pixels[0].length
+    canvas.height = 16*pixels.length
+    for (let y in pixels) {
+        for (let x in pixels) {
+            ctx.drawImage(textures[finishedBlocks[y][x]], x*16,y*16)
         }
     }
 }

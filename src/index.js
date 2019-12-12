@@ -162,7 +162,7 @@ function drawConverted() {
 }
 
 function reset() {
-    document.getElementById("pixelReader").remove()
+    if (document.getElementById("pixelReader") !== null) document.getElementById("pixelReader").remove()
     pixels = []
     finishedBlocks = []
 }

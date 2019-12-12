@@ -25,7 +25,7 @@ for (let i in files) {
         }
         let endBlue = Math.floor(preBlue/(data.length/4))
 
-        fileInfo[files[i]] = [endRed, endGreen, endBlue, "rgba("+endRed+", "+endGreen+", "+endBlue+")", hex]
+        fileInfo[files[i]] = [endRed, endGreen, endBlue, "rgba("+endRed+", "+endGreen+", "+endBlue+")"]
         fs.writeFileSync("./map.json", JSON.stringify(fileInfo, null, "\t"))
     })
 

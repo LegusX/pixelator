@@ -27,7 +27,7 @@ function setup() {
         let input = e.target
         let inputImage = input.files[0]
         let filereader = new FileReader()
-        filereader.onload = function(){
+        filereader.onload = function(event){
             let encode = event.target.result
             let image = new Image()
             image.onload = function() {

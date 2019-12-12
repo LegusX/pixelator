@@ -164,7 +164,7 @@ function drawConverted() {
     canvas.height = 16*pixels.length
     for (let y in pixels) {
         for (let x in pixels) {
-            ctx.drawImage(textures[finishedBlocks[y][x]], x*16,y*16)
+            if (typeof finishedBlocks[y][x] !== "undefined") ctx.drawImage(textures[finishedBlocks[y][x]], x*16,y*16)
         }
     }
 }

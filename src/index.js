@@ -14,6 +14,9 @@ var blockList = {}
 //object that holds all the preloaded mc textures
 var textures = {}
 
+//for efficiency
+var pairs = {}
+
 //Init all html elements and just get the program ready in general
 function setup() {
     document.getElementById("fileupload").addEventListener("change", function(e){
@@ -124,15 +127,20 @@ function convertImage() {
             let limits = [5, 5, 5] //how far off we will initially allow the colors to be
             let pixel = pixels[y][x]
             let pixDec = parseInt(pixel[0].toString(16)+pixel[1].toString(16)+pixel[2].toString(16), 16)
-
-            //looping v3
-            let limit = 1000
-            let potential = ""
-            for (let i in Object.getOwnPropertyNames(blockList)) {
-                let block = blockList[Object.getOwnPropertyNames(blockList)[i]]
-                if (Math.sqrt(Math.pow(pixel[0]-block[0],2) + Math.pow(pixel[1]-block[1],2) + Math.pow(pixel[2]-block[2],2)) < limit) {
-                    finishedBlocks[y][x] = Object.getOwnPropertyNames(blockList)[i]
-                    limit = Math.sqrt(Math.pow(pixel[0]-block[0],2) + Math.pow(pixel[1]-block[1],2) + Math.pow(pixel[2]-block[2],2))
+            
+            //if this pixel has already been calculated, use previous calculation instead of doing it again
+            if (typeof pairs[pixel.join("")] !== "undefined") finishedBlocks[y][x] = pairs[pixel.join("")]
+            else {
+                //looping v4
+                let limit = 1000
+                let potential = ""
+                for (let i in Object.getOwnPropertyNames(blockList)) {
+                    let block = blockList[Object.getOwnPropertyNames(blockList)[i]]
+                    if (Math.sqrt(Math.pow(pixel[0]-block[0],2) + Math.pow(pixel[1]-block[1],2) + Math.pow(pixel[2]-block[2],2)) < limit) {
+                        finishedBlocks[y][x] = Object.getOwnPropertyNames(blockList)[i]
+                        pairs[pixel.join("")] = Object.getOwnPropertyNames(blockList)[i]
+                        limit = Math.sqrt(Math.pow(pixel[0]-block[0],2) + Math.pow(pixel[1]-block[1],2) + Math.pow(pixel[2]-block[2],2))
+                    }
                 }
             }
 
